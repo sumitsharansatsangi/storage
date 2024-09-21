@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/services.dart';
 
 import 'storage_platform_interface.dart';
@@ -42,7 +44,8 @@ class MethodChannelStorage extends StoragePlatform {
   Future<int?> getExternalStorageUsableSpace() async {
     return await methodChannel.invokeMethod<int>('gESUS');
   }
-   @override
+
+  @override
   Future<int?> getRootTotalSpace() async {
     return await methodChannel.invokeMethod<int>('gRTS');
   }
@@ -56,4 +59,31 @@ class MethodChannelStorage extends StoragePlatform {
   Future<int?> getRootUsableSpace() async {
     return await methodChannel.invokeMethod<int>('gRUS');
   }
+
+  @override
+  Future<List<StorageInfo>> getStorageInfo() async {
+    List reply = await methodChannel.invokeMethod('gESAD', []);
+    return reply
+        .map((storageInfoMap) => StorageInfo.fromJson(storageInfoMap))
+        .toList();
+  }
+}
+
+class StorageInfo {
+  final String appFilesDir;
+  final int availableBytes;
+  int get availableGB => availableBytes ~/ pow(2, 30);
+  int get availableMB => availableBytes ~/ pow(2, 20);
+
+  String get rootDir => appFilesDir
+      .split("/")
+      .sublist(0, appFilesDir.split("/").length - 4)
+      .join("/");
+
+  StorageInfo(this.appFilesDir, this.availableBytes);
+
+  factory StorageInfo.fromJson(Map json) {
+    return StorageInfo(json["path"], json["availableBytes"]);
+  }
+  //get root with: reply[0]["path"].split("/").sublist(0,reply[0]["path"].split("/").length-4).join("/");
 }

@@ -64,6 +64,12 @@ class MockStoragePlatform
     // TODO: implement getStorageUsableSpace
     throw UnimplementedError();
   }
+  
+  @override
+  Future<List<StorageInfo>> getStorageInfo() {
+    // TODO: implement getStorageInfo
+    throw UnimplementedError();
+  }
 }
 
 void main() {

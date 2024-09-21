@@ -1,3 +1,4 @@
+import 'storage_method_channel.dart';
 import 'storage_platform_interface.dart';
 
 class Storage {
@@ -39,5 +40,9 @@ class Storage {
 
   Future<int?> getRootUsableSpace() {
     return StoragePlatform.instance.getRootUsableSpace();
+  }
+
+  Future<List<StorageInfo>> getStorageInfo() {
+    return StoragePlatform.instance.getStorageInfo();
   }
 }
