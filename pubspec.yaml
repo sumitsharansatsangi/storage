@@ -1,6 +1,7 @@
 name: storage
 description: "A new Flutter plugin project."
 version: 0.0.1
+publish_to: none
 homepage:
 
 environment:
@@ -10,7 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface: ^2.0.2
+  plugin_platform_interface:
+    git: https://github.com/kumsumit/plugin_platform_interface.git
 
 dev_dependencies:
   flutter_test:
