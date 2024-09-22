@@ -80,6 +80,7 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
 
     private fun getStorageFreeSpace(context: Context): Long{
         val dirs: Array<File> = context.getExternalFilesDirs(null)
+        print(dirs);
         val stat = StatFs(dirs[1].path.split("Android")[0])
         return stat.availableBytes
 //        return Environment.getDataDirectory().freeSpace
