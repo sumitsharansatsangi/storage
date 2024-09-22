@@ -57,7 +57,4 @@ abstract class StoragePlatform extends PlatformInterface {
   Future<int?> getRootUsableSpace() {
     throw UnimplementedError('getRootUsableSpace() has not been implemented.');
   }
-     Future<List<StorageInfo>> getStorageInfo() {
-    throw UnimplementedError('getStorageInfo() has not been implemented.');
-  }
 }

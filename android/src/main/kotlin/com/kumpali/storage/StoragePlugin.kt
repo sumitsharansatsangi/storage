@@ -61,9 +61,6 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
           "gSDC" -> {
               result.success(getSDCard())
           }
-//          "gESAD" -> {
-//              result.success(getExternalStorageAvailableData(context))
-//          }
           else -> {
               result.notImplemented()
           }
@@ -113,16 +110,6 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
         return Environment.getRootDirectory().usableSpace
     }
 
-//    private fun getExternalStoragePublicDownloadDirectoryTotalSpace(): Long{
-//        return  Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS).totalSpace
-//    }
-//
-//    private fun getExternalStoragePublicDownloadDirectoryFreeSpace(): Long{
-//        return  Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS).freeSpace
-//    }
-
-
-
     @SuppressLint("UsableSpace")
     private fun getSDCard():String{
         val file = File("/storage")
@@ -134,11 +121,6 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
                 return f.name
             }
         }
-//        val isPresent = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED_READ_ONLY)
-//        if (isPresent){
-//           return Environment.getExternalStorageDirectory().absolutePath
-//        }
-//        context.externalMediaDirs
         return ""
     }
 

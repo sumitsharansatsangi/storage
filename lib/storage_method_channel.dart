@@ -64,14 +64,6 @@ class MethodChannelStorage extends StoragePlatform {
   Future<String?> getSDCard() async {
     return await methodChannel.invokeMethod<String>('gSDC');
   }
-
-  @override
-  Future<List<StorageInfo>> getStorageInfo() async {
-    List reply = await methodChannel.invokeMethod('gESAD', []);
-    return reply
-        .map((storageInfoMap) => StorageInfo.fromJson(storageInfoMap))
-        .toList();
-  }
 }
 
 class StorageInfo {

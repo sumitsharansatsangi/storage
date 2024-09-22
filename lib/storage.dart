@@ -1,4 +1,3 @@
-import 'storage_method_channel.dart';
 import 'storage_platform_interface.dart';
 
 class Storage {
@@ -44,11 +43,5 @@ class Storage {
   
   Future<String?> getSDCard() {
     return StoragePlatform.instance.getSDCard();
-  }
-  
-
-
-  Future<List<StorageInfo>> getStorageInfo() {
-    return StoragePlatform.instance.getStorageInfo();
   }
 }
