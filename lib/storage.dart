@@ -41,6 +41,12 @@ class Storage {
   Future<int?> getRootUsableSpace() {
     return StoragePlatform.instance.getRootUsableSpace();
   }
+  
+  Future<String?> getSDCard() {
+    return StoragePlatform.instance.getSDCard();
+  }
+  
+
 
   Future<List<StorageInfo>> getStorageInfo() {
     return StoragePlatform.instance.getStorageInfo();

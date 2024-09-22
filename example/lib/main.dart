@@ -28,7 +28,8 @@ class _MyAppState extends State<MyApp> {
   int rootTotalSpace = 0;
   int rootFreeSpace = 0;
   int rootUsableSpace = 0;
-  List<StorageInfo> storageInfo =[] ;
+  String sdCard = "";
+  List<StorageInfo> storageInfo = [];
 
   @override
   void initState() {
@@ -57,6 +58,7 @@ class _MyAppState extends State<MyApp> {
       rootFreeSpace = await _storagePlugin.getRootFreeSpace() ?? 0;
       rootUsableSpace = await _storagePlugin.getRootUsableSpace() ?? 0;
       storageInfo = await _storagePlugin.getStorageInfo();
+      sdCard = await _storagePlugin.getSDCard() ?? "";
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -100,12 +102,14 @@ class _MyAppState extends State<MyApp> {
               Text('Root free: $rootFreeSpace ** ${rootFreeSpace / 1000000}\n'),
               Text(
                   'Root usable: $rootUsableSpace ** ${rootUsableSpace / 1000000}\n'),
-              for(final info in storageInfo)
-              ListTile(title: Text(info.appFilesDir),
-              subtitle: Text(info.rootDir),
-              trailing: Text(info.availableBytes.toString()),
-              leading: Text(info.availableGB.toString()),
-              )    
+              for (final info in storageInfo)
+                ListTile(
+                  title: Text(info.appFilesDir),
+                  subtitle: Text(info.rootDir),
+                  trailing: Text(info.availableBytes.toString()),
+                  leading: Text(info.availableGB.toString()),
+                ),
+              Text("SD Card Path $sdCard")  
             ],
           ),
         ),

@@ -22,7 +22,7 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
   private lateinit var context : Context
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     context = flutterPluginBinding.applicationContext
-    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "storage")
+    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.kumpali.storage")
     channel.setMethodCallHandler(this)
   }
 
@@ -32,10 +32,10 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
               result.success("Android ${android.os.Build.VERSION.RELEASE}")
           }
           "gSTS" -> {
-              result.success(getStorageTotalSpace(context))
+              result.success(getStorageTotalSpace())
           }
           "gSFS" -> {
-              result.success(getStorageFreeSpace(context))
+              result.success(getStorageFreeSpace())
           }
           "gSUS" -> {
               result.success(getStorageUsableSpace())
@@ -58,9 +58,12 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
           "gRUS" -> {
               result.success(getRootUsableSpace())
           }
-          "gESAD" -> {
-              result.success(getExternalStorageAvailableData(context))
+          "gSDC" -> {
+              result.success(getSDCard())
           }
+//          "gESAD" -> {
+//              result.success(getExternalStorageAvailableData(context))
+//          }
           else -> {
               result.notImplemented()
           }
@@ -71,19 +74,12 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
     channel.setMethodCallHandler(null)
   }
 
-    private fun getStorageTotalSpace(context: Context): Long{
-        val dirs: Array<File> = context.getExternalFilesDirs(null)
-        val stat = StatFs(dirs[1].path.split("Android")[0])
-        return stat.totalBytes
-//        return Environment.getDataDirectory().totalSpace
+    private fun getStorageTotalSpace(): Long{
+        return Environment.getDataDirectory().totalSpace
     }
 
-    private fun getStorageFreeSpace(context: Context): Long{
-        val dirs: Array<File> = context.getExternalFilesDirs(null)
-        print(dirs);
-        val stat = StatFs(dirs[1].path.split("Android")[0])
-        return stat.availableBytes
-//        return Environment.getDataDirectory().freeSpace
+    private fun getStorageFreeSpace(): Long{
+        return Environment.getDataDirectory().freeSpace
     }
 
     @SuppressLint("UsableSpace")
@@ -117,12 +113,39 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
         return Environment.getRootDirectory().usableSpace
     }
 
-    private fun getExternalStoragePublicDownloadDirectoryTotalSpace(): Long{
-        return  Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS).totalSpace
+//    private fun getExternalStoragePublicDownloadDirectoryTotalSpace(): Long{
+//        return  Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS).totalSpace
+//    }
+//
+//    private fun getExternalStoragePublicDownloadDirectoryFreeSpace(): Long{
+//        return  Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS).freeSpace
+//    }
+
+
+
+    @SuppressLint("UsableSpace")
+    private fun getSDCard():String{
+        val file = File("/storage")
+        val files = file.listFiles()
+        if(files != null)
+        for ( f in files){
+            if(f != null)
+            if (f.isDirectory  && f.name.contains("-")){
+                return f.name
+            }
+        }
+//        val isPresent = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED_READ_ONLY)
+//        if (isPresent){
+//           return Environment.getExternalStorageDirectory().absolutePath
+//        }
+//        context.externalMediaDirs
+        return ""
     }
 
-    private fun getExternalStoragePublicDownloadDirectoryFreeSpace(): Long{
-        return  Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DOWNLOADS).freeSpace
+    private fun getTotalDiskSpaceForPath(path: String): Double {
+        val stat = StatFs(path)
+        val bytesAvailable: Long = stat.blockSizeLong * stat.availableBlocksLong
+        return (bytesAvailable / (1024f * 1024f)).toDouble()
     }
 
     private fun getFreeDiskSpaceForPath(path: String): Double {
@@ -131,46 +154,4 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
         return (bytesAvailable / (1024f * 1024f)).toDouble()
     }
 
-    private fun getExternalStorageAvailableData(context: Context): ArrayList<HashMap<*, *>> {
-        val appsDir = context.getExternalFilesDirs(Environment.MEDIA_UNMOUNTED)
-        val sharedAppsDir = context.getExternalFilesDirs(Environment.MEDIA_SHARED)
-        val extRootPaths = ArrayList<HashMap<*, *>>()
-        for (file in appsDir) {
-            if (file != null) {
-                val path = file.absolutePath
-                val statFs = StatFs(path)
-                val availableBytes = statFs.availableBlocksLong * statFs.blockSizeLong
-                val storageData = HashMap<String, Any>()
-                try {
-                    val rootPath =
-                        "" //file.getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath();
-                    storageData["rootPath"] = rootPath
-                } catch (_: Exception) {
-                }
-                storageData["path"] = path
-                storageData["availableBytes"] = availableBytes
-                extRootPaths.add(storageData)
-            }
-        }
-            for (fil in sharedAppsDir) {
-                if (fil != null) {
-                    val path = fil.absolutePath
-                    val statFs = StatFs(path)
-                    val availableBytes = statFs.availableBlocksLong * statFs.blockSizeLong
-                    val storageData = HashMap<String, Any>()
-                    try {
-                        val rootPath =
-                            "" //file.getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath();
-                        storageData["rootPath"] = rootPath
-                    } catch (_: Exception) {
-                    }
-                    storageData["path"] = path
-                    storageData["availableBytes"] = availableBytes
-                    extRootPaths.add(storageData)
-                }
-            }
-            return extRootPaths
-        }
 }
-
-

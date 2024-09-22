@@ -51,6 +51,9 @@ abstract class StoragePlatform extends PlatformInterface {
   Future<int?> getRootFreeSpace() {
     throw UnimplementedError('getRootFreeSpace() has not been implemented.');
   }
+   Future<String?> getSDCard() {
+    throw UnimplementedError('getSDCard() has not been implemented.');
+  }
   Future<int?> getRootUsableSpace() {
     throw UnimplementedError('getRootUsableSpace() has not been implemented.');
   }

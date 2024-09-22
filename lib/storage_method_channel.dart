@@ -8,7 +8,7 @@ import 'storage_platform_interface.dart';
 class MethodChannelStorage extends StoragePlatform {
   /// The method channel used to interact with the native platform.
   // @visibleForTesting
-  final methodChannel = const MethodChannel('storage');
+  final methodChannel = const MethodChannel('com.kumpali.storage');
 
   @override
   Future<String?> getPlatformVersion() async {
@@ -58,6 +58,11 @@ class MethodChannelStorage extends StoragePlatform {
   @override
   Future<int?> getRootUsableSpace() async {
     return await methodChannel.invokeMethod<int>('gRUS');
+  }
+
+  @override
+  Future<String?> getSDCard() async {
+    return await methodChannel.invokeMethod<String>('gSDC');
   }
 
   @override
