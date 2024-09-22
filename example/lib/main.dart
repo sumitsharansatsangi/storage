@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
       rootTotalSpace = await _storagePlugin.getRootTotalSpace() ?? 0;
       rootFreeSpace = await _storagePlugin.getRootFreeSpace() ?? 0;
       rootUsableSpace = await _storagePlugin.getRootUsableSpace() ?? 0;
-      sdCard = await _storagePlugin.getSDCard()?? SDCard("", 0, 0);
+      sdCard = await _storagePlugin.getSDCard();
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -100,7 +100,7 @@ class _MyAppState extends State<MyApp> {
               Text('Root free: $rootFreeSpace ** ${rootFreeSpace / 1000000}\n'),
               Text(
                   'Root usable: $rootUsableSpace ** ${rootUsableSpace / 1000000}\n'),
-              Text("SD Card Mount Name ${sdCard.name}"),
+              Text("SD Card Mount Path ${sdCard.path}"),
               Text("SD Card Total memory ${sdCard.total}"),
               Text("SD Card Free Memory ${sdCard.free}")    
             ],

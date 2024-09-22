@@ -118,7 +118,7 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
         for ( f in files){
             if(f != null)
             if (f.isDirectory  && f.name.contains("-")){
-                sdCard["name"] = f.name
+                sdCard["path"] = f.absolutePath
                 sdCard["total"] = f.totalSpace
                 sdCard["free"] = f.freeSpace
                 break
