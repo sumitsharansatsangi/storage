@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/services.dart';
 
+import 'model.dart';
 import 'storage_platform_interface.dart';
 
 /// An implementation of [StoragePlatform] that uses method channels.
@@ -61,26 +60,8 @@ class MethodChannelStorage extends StoragePlatform {
   }
 
   @override
-  Future<String?> getSDCard() async {
-    return await methodChannel.invokeMethod<String>('gSDC');
+  Future<SDCard> getSDCard() async {
+    final sdCard = await methodChannel.invokeMethod('gSDC', []);
+    return SDCard.fromJson(sdCard);
   }
-}
-
-class StorageInfo {
-  final String appFilesDir;
-  final int availableBytes;
-  int get availableGB => availableBytes ~/ pow(2, 30);
-  int get availableMB => availableBytes ~/ pow(2, 20);
-
-  String get rootDir => appFilesDir
-      .split("/")
-      .sublist(0, appFilesDir.split("/").length - 4)
-      .join("/");
-
-  StorageInfo(this.appFilesDir, this.availableBytes);
-
-  factory StorageInfo.fromJson(Map json) {
-    return StorageInfo(json["path"], json["availableBytes"]);
-  }
-  //get root with: reply[0]["path"].split("/").sublist(0,reply[0]["path"].split("/").length-4).join("/");
 }

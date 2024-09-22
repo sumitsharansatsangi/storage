@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:storage/model.dart';
 import 'package:storage/storage.dart';
 import 'package:storage/storage_platform_interface.dart';
 import 'package:storage/storage_method_channel.dart';
@@ -66,13 +67,7 @@ class MockStoragePlatform
   }
   
   @override
-  Future<List<StorageInfo>> getStorageInfo() {
-    // TODO: implement getStorageInfo
-    throw UnimplementedError();
-  }
-  
-  @override
-  Future<String?> getSDCard() {
+  Future<SDCard> getSDCard() {
     // TODO: implement getSDCard
     throw UnimplementedError();
   }

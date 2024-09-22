@@ -110,18 +110,21 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
         return Environment.getRootDirectory().usableSpace
     }
 
-    @SuppressLint("UsableSpace")
-    private fun getSDCard():String{
+    private fun getSDCard():HashMap<String, Any>  {
+        val sdCard = HashMap<String, Any>()
         val file = File("/storage")
         val files = file.listFiles()
         if(files != null)
         for ( f in files){
             if(f != null)
             if (f.isDirectory  && f.name.contains("-")){
-                return f.name
+                sdCard["name"] = f.name
+                sdCard["total"] = f.totalSpace
+                sdCard["free"] = f.freeSpace
+                break
             }
         }
-        return ""
+        return sdCard
     }
 
     private fun getTotalDiskSpaceForPath(path: String): Double {

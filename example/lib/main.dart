@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:storage/model.dart';
 import 'package:storage/storage.dart';
 
 void main() {
@@ -27,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   int rootTotalSpace = 0;
   int rootFreeSpace = 0;
   int rootUsableSpace = 0;
-  String sdCard = ": Not found";
+  SDCard sdCard = SDCard("",0,0);
 
   @override
   void initState() {
@@ -55,7 +56,7 @@ class _MyAppState extends State<MyApp> {
       rootTotalSpace = await _storagePlugin.getRootTotalSpace() ?? 0;
       rootFreeSpace = await _storagePlugin.getRootFreeSpace() ?? 0;
       rootUsableSpace = await _storagePlugin.getRootUsableSpace() ?? 0;
-      sdCard = await _storagePlugin.getSDCard() ?? "";
+      sdCard = await _storagePlugin.getSDCard()?? SDCard("", 0, 0);
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -95,11 +96,13 @@ class _MyAppState extends State<MyApp> {
               Text(
                   'External usable: $externalStorageUsableSpace ** ${externalStorageUsableSpace / 1000000}\n'),
               Text(
-                  'Root tOTAL: $rootTotalSpace ** ${rootTotalSpace / 1000000}\n'),
+                  'Root Total: $rootTotalSpace ** ${rootTotalSpace / 1000000}\n'),
               Text('Root free: $rootFreeSpace ** ${rootFreeSpace / 1000000}\n'),
               Text(
                   'Root usable: $rootUsableSpace ** ${rootUsableSpace / 1000000}\n'),
-              Text("SD Card Path $sdCard")  
+              Text("SD Card Mount Name ${sdCard.name}"),
+              Text("SD Card Total memory ${sdCard.total}"),
+              Text("SD Card Free Memory ${sdCard.free}")    
             ],
           ),
         ),

@@ -1,3 +1,4 @@
+import 'model.dart';
 import 'storage_platform_interface.dart';
 
 class Storage {
@@ -41,7 +42,7 @@ class Storage {
     return StoragePlatform.instance.getRootUsableSpace();
   }
   
-  Future<String?> getSDCard() {
+  Future<SDCard> getSDCard() {
     return StoragePlatform.instance.getSDCard();
   }
 }

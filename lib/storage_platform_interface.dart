@@ -1,5 +1,6 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
+import 'model.dart';
 import 'storage_method_channel.dart';
 
 abstract class StoragePlatform extends PlatformInterface {
@@ -51,7 +52,7 @@ abstract class StoragePlatform extends PlatformInterface {
   Future<int?> getRootFreeSpace() {
     throw UnimplementedError('getRootFreeSpace() has not been implemented.');
   }
-   Future<String?> getSDCard() {
+   Future<SDCard> getSDCard() {
     throw UnimplementedError('getSDCard() has not been implemented.');
   }
   Future<int?> getRootUsableSpace() {
