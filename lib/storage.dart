@@ -6,6 +6,11 @@ class Storage {
     return StoragePlatform.instance.getPlatformVersion();
   }
 
+  Future<int?> getSDKIntVersion() {
+    return StoragePlatform.instance.getSDKIntVersion();
+  }
+
+
   Future<int?> getStorageTotalSpace() {
     return StoragePlatform.instance.getStorageTotalSpace();
   }

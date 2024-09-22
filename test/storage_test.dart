@@ -71,6 +71,12 @@ class MockStoragePlatform
     // TODO: implement getSDCard
     throw UnimplementedError();
   }
+  
+  @override
+  Future<int?> getSDKIntVersion() {
+    // TODO: implement getSDKIntVersion
+    throw UnimplementedError();
+  }
 }
 
 void main() {

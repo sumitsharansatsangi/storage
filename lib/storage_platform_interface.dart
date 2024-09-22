@@ -28,6 +28,11 @@ abstract class StoragePlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
+
+  Future<int?> getSDKIntVersion() {
+    throw UnimplementedError('getSDKIntVersion() has not been implemented.');
+  }
+
   Future<int?> getStorageTotalSpace() {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }

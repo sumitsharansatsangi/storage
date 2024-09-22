@@ -15,6 +15,12 @@ class MethodChannelStorage extends StoragePlatform {
   }
 
   @override
+  Future<int?> getSDKIntVersion() async {
+    return await methodChannel.invokeMethod<int>('gSDKV');
+  }
+
+
+  @override
   Future<int?> getStorageTotalSpace() async {
     return await methodChannel.invokeMethod<int>('gSTS');
   }

@@ -31,6 +31,9 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
           "gPV" -> {
               result.success("Android ${android.os.Build.VERSION.RELEASE}")
           }
+          "gSDKV" -> {
+              result.success(android.os.Build.VERSION.SDK_INT)
+          }
           "gSTS" -> {
               result.success(getStorageTotalSpace())
           }
