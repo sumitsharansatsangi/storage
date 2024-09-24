@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   int rootFreeSpace = 0;
   int rootUsableSpace = 0;
   SDCard sdCard = SDCard("",0,0);
-
+  int sdkInt =0;
   @override
   void initState() {
     super.initState();
@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
     try {
       platformVersion = await _storagePlugin.getPlatformVersion() ??
           'Unknown platform version';
+      sdkInt=   await _storagePlugin.getSDKIntVersion()?? 0;
       storageTotalSpace = await _storagePlugin.getStorageTotalSpace() ?? 0;
       storageFreeSpace = await _storagePlugin.getStorageFreeSpace() ?? 0;
       storageUsableSpace = await _storagePlugin.getStorageUsableSpace() ?? 0;
@@ -83,6 +84,7 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             children: [
               Text('Running on: $_platformVersion\n'),
+                 Text('Running on SDK : $sdkInt\n'),
               Text(
                   'Total Space: $storageTotalSpace ** ${storageTotalSpace / 1000000}\n'),
               Text(
