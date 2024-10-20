@@ -117,7 +117,7 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
         val sdCard = HashMap<String, Any>()
         val file = File("/storage")
         val files = file.listFiles()
-        if(files != null)
+        if(files != null){
         for ( f in files){
             if(f != null)
             if (f.isDirectory  && f.name.contains("-")){
@@ -126,7 +126,7 @@ class StoragePlugin: FlutterPlugin, MethodCallHandler {
                 sdCard["free"] = f.freeSpace
                 break
             }
-        }
+        }}
         return sdCard
     }
 
