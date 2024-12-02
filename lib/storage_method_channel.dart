@@ -67,7 +67,7 @@ class MethodChannelStorage extends StoragePlatform {
 
   @override
   Future<SDCard> getSDCard() async {
-    final sdCard = await methodChannel.invokeMethod('gSDC', []);
+    final sdCard = await methodChannel.invokeMethod('gSDC');
     return SDCard.fromJson(sdCard);
   }
 }
