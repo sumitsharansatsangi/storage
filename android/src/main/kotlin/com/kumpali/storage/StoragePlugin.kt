@@ -79,15 +79,15 @@ class StoragePlugin : FlutterPlugin, MethodCallHandler {
             "gSDCP" -> {
                 result.success(getSdCardPaths(context))
             }
-             "gESW"->{
+             "iSDP"->{
                  result.success(isSdCardPresent(context))
              }
-            "gSDTS"->{
-                result.success(getSdCardTotalSpace(call.argument<String>("path").toString()))
-            }
-            "gSDFS"->{
-                result.success(getSdCardFreeSpace(call.argument<String>("path").toString()))
-            }
+//            "gSDTS"->{
+//                result.success(getSdCardTotalSpace(call.argument<String>("path").toString()))
+//            }
+//            "gSDFS"->{
+//                result.success(getSdCardFreeSpace(call.argument<String>("path").toString()))
+//            }
             else -> {
                 result.notImplemented()
             }
@@ -178,17 +178,23 @@ class StoragePlugin : FlutterPlugin, MethodCallHandler {
 //    }
 
 
-    fun getSdCardPaths(context: Context): List<String> {
-        val sdCardPaths = mutableListOf<String>()
+    fun getSdCardPaths(context: Context): List<HashMap<String, Any>> {
+        val sdCardList = mutableListOf<HashMap<String, Any>>()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // For SDK 30 and above
             val storageManager = context.getSystemService(Context.STORAGE_SERVICE) as StorageManager
             val storageVolumes = storageManager.storageVolumes
-
             for (storageVolume in storageVolumes) {
+                val sdCard = HashMap<String, Any>()
                 if (storageVolume.state == Environment.MEDIA_MOUNTED && storageVolume.isRemovable) {
-                    sdCardPaths.add(storageVolume.directory?.path ?: "")
+                    var path  =storageVolume.directory?.path ?: ""
+                    if(path.isNotEmpty()) {
+                        sdCard["path"]=path
+                        sdCard["total"] = File(path).totalSpace
+                        sdCard["free"] = File(path).freeSpace
+                        sdCardList.add(sdCard)
+                    }
                 }
             }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -199,7 +205,13 @@ class StoragePlugin : FlutterPlugin, MethodCallHandler {
                 for (storageVolume in storageVolumes) {
                     val path = storageVolume.javaClass.getMethod("getPath").invoke(storageVolume) as? String
                     if (storageVolume.state == Environment.MEDIA_MOUNTED && storageVolume.isRemovable) {
-                        path?.let { sdCardPaths.add(it) }
+                        val sdCard = HashMap<String, Any>()
+                        if(path != null && path.isNotEmpty()) {
+                            sdCard["path"] = path
+                            sdCard["total"] = File(path).totalSpace
+                            sdCard["free"] = File(path).freeSpace
+                            sdCardList.add(sdCard)
+                        }
                     }
                 }
             }
@@ -208,23 +220,30 @@ class StoragePlugin : FlutterPlugin, MethodCallHandler {
             val externalDirs: Array<File> = ContextCompat.getExternalFilesDirs(context, null)
             for (file in externalDirs) {
                 if (Environment.isExternalStorageRemovable(file)) {
-                    sdCardPaths.add(file.path)
+                   val path = file.path
+                    val sdCard = HashMap<String, Any>()
+                    if(path != null && path.isNotEmpty()) {
+                        sdCard["path"] = path
+                        sdCard["total"] = File(path).totalSpace
+                        sdCard["free"] = File(path).freeSpace
+                        sdCardList.add(sdCard)
+                    }
                 }
             }
         }
 
-        return sdCardPaths
+        return sdCardList
     }
 
-    fun getSdCardFreeSpace(sdCardPath: String): Long {
-        val file = File(sdCardPath)
-        return file.freeSpace
-    }
-
-    fun getSdCardTotalSpace(sdCardPath: String): Long {
-        val file = File(sdCardPath)
-        return file.totalSpace
-    }
+//    fun getSdCardFreeSpace(sdCardPath: String): Long {
+//        val file = File(sdCardPath)
+//        return file.freeSpace
+//    }
+//
+//    fun getSdCardTotalSpace(sdCardPath: String): Long {
+//        val file = File(sdCardPath)
+//        return file.totalSpace
+//    }
 
 
 

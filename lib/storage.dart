@@ -1,4 +1,4 @@
-// import 'model.dart';
+import 'model.dart';
 import 'storage_platform_interface.dart';
 
 class Storage {
@@ -43,24 +43,24 @@ class Storage {
   //   return StoragePlatform.instance.getRootFreeSpace();
   // }
 
-  Future<int?> getRootUsableSpace() {
-    return StoragePlatform.instance.getRootUsableSpace();
-  }
+  // Future<int?> getRootUsableSpace() {
+  //   return StoragePlatform.instance.getRootUsableSpace();
+  // }
   
-  Future<List<String>?> getSDCardPath() {
-    return StoragePlatform.instance.getSDCardPath();
+  Future<List<SDCard>?> getSDCard() {
+    return StoragePlatform.instance.getSDCard();
   }
 
-  Future<bool?> isExternalStorageWritable() {
-    return StoragePlatform.instance.isExternalStorageWritable();
+  Future<bool?> isSDCardPresent() {
+    return StoragePlatform.instance.isSDCardPresent();
   }
 
-  Future<int?> getSdCardFreeSpace(String path){
-    return StoragePlatform.instance.getSdCardFreeSpace(path);
-  }
+  // Future<int?> getSdCardFreeSpace(String path){
+  //   return StoragePlatform.instance.getSdCardFreeSpace(path);
+  // }
 
-  Future<int?> getSdCardTotalSpace(String path){
-    return StoragePlatform.instance.getSdCardTotalSpace(path);
-  }
+  // Future<int?> getSdCardTotalSpace(String path){
+  //   return StoragePlatform.instance.getSdCardTotalSpace(path);
+  // }
 
 }

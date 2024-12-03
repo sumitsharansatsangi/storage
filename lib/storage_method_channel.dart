@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-// import 'model.dart';
+import 'model.dart';
 import 'storage_platform_interface.dart';
 
 /// An implementation of [StoragePlatform] that uses method channels.
@@ -59,33 +59,33 @@ class MethodChannelStorage extends StoragePlatform {
   //   return await methodChannel.invokeMethod<int>('gRFS');
   // }
 
-  @override
-  Future<int?> getRootUsableSpace() async {
-    return await methodChannel.invokeMethod<int>('gRUS');
-  }
+  // @override
+  // Future<int?> getRootUsableSpace() async {
+  //   return await methodChannel.invokeMethod<int>('gRUS');
+  // }
 
   @override
-  Future<List<String>?> getSDCardPath() async {
-    final path = await methodChannel.invokeMethod('gSDCP');
+  Future<List<SDCard>?> getSDCard() async {
+    final sdCardMapList = await methodChannel.invokeMethod('gSDCP');
     return [
-      for (var p in path)
-        if (p != null && p.isNotEmpty) p as String
+      for (var sdCard in sdCardMapList)
+        SDCard.fromJson(sdCard)
     ];
   }
 
   @override
-  Future<bool?> isExternalStorageWritable() async {
-    return await methodChannel.invokeMethod<bool>('gESW');
+  Future<bool?> isSDCardPresent() async {
+    return await methodChannel.invokeMethod<bool>('iSDP');
   }
 
-  @override
-   Future<int?> getSdCardFreeSpace(String path)async{
-     return await methodChannel.invokeMethod<int>('gSDFS',{ 'path': path });
-  }
+  // @override
+  //  Future<int?> getSdCardFreeSpace(String path)async{
+  //    return await methodChannel.invokeMethod<int>('gSDFS',{ 'path': path });
+  // }
 
-  @override
-  Future<int?> getSdCardTotalSpace(String path){
-    return methodChannel.invokeMethod<int>('gSDTS',{ 'path': path });
-  }
+  // @override
+  // Future<int?> getSdCardTotalSpace(String path){
+  //   return methodChannel.invokeMethod<int>('gSDTS',{ 'path': path });
+  // }
 
 }

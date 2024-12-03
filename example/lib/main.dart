@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-// import 'package:storage/model.dart';
+import 'package:storage/model.dart';
 import 'package:storage/storage.dart';
 
 void main() {
@@ -28,11 +28,11 @@ class _MyAppState extends State<MyApp> {
   // int rootTotalSpace = 0;
   // int rootFreeSpace = 0;
   // int rootUsableSpace = 0;
-  int sdCardTotalSpace = 0;
-  int sdCardFreeSpace = 0;
+  // int sdCardTotalSpace = 0;
+  // int sdCardFreeSpace = 0;
   // SDCard sdCard = SDCard("",0,0);
-  List<String> sdCardPath = [];
-  bool isWritable = false;
+  List<SDCard> sdCardList = [];
+  bool isSDCardPresent = false;
   int sdkInt =0;
   @override
   void initState() {
@@ -62,10 +62,10 @@ class _MyAppState extends State<MyApp> {
       // rootFreeSpace = await _storagePlugin.getRootFreeSpace() ?? 0;
       // rootUsableSpace = await _storagePlugin.getRootUsableSpace() ?? 0;
       // sdCard = await _storagePlugin.getSDCard();
-      sdCardPath = await _storagePlugin.getSDCardPath() ?? [];
-      isWritable = await _storagePlugin.isExternalStorageWritable()??false;
-      sdCardTotalSpace = await _storagePlugin.getSdCardTotalSpace(sdCardPath[0])??0;
-      sdCardFreeSpace = await _storagePlugin.getSdCardFreeSpace(sdCardPath[0])??0;
+      sdCardList = await _storagePlugin.getSDCard() ?? [];
+      isSDCardPresent = await _storagePlugin.isSDCardPresent()??false;
+      // sdCardTotalSpace = await _storagePlugin.getSdCardTotalSpace(sdCardPath[0])??0;
+      // sdCardFreeSpace = await _storagePlugin.getSdCardFreeSpace(sdCardPath[0])??0;
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -110,13 +110,16 @@ class _MyAppState extends State<MyApp> {
               // Text('Root free: $rootFreeSpace ** ${rootFreeSpace / (1024 * 1024 * 1024)}\n'),
               // Text(
               //     'Root usable: $rootUsableSpace ** ${rootUsableSpace / (1024 * 1024 * 1024)}\n'),
-              for(var path in sdCardPath)
-              Text("SD Card Mount Path $path"),
+                Text('Is SDCard Present? $isSDCardPresent'),
+              for(var sdCard in sdCardList)
+              ListTile(title: Text("SD Card Mount Path ${sdCard.path}"),
+              subtitle: Text("${sdCard.free / (1024 * 1024 * 1024)} GB /  ${sdCard.total / (1024 * 1024 * 1024)} GB"),
+              ),
               // Text("SD Card Total memory ${sdCard.total}"),
               // Text("SD Card Free Memory ${sdCard.free}")    ,
-              Text('Is External Storage Writable? $isWritable'),
-              Text('SD Card Total Space: $sdCardTotalSpace ** ${sdCardTotalSpace / (1024 * 1024 * 1024)}\n'),
-              Text('SD Card Free Space: $sdCardFreeSpace ** ${sdCardFreeSpace / (1024 * 1024 * 1024)}\n'),
+           
+              // Text('SD Card Total Space: $sdCardTotalSpace ** ${sdCardTotalSpace / (1024 * 1024 * 1024)}\n'),
+              // Text('SD Card Free Space: $sdCardFreeSpace ** ${sdCardFreeSpace / (1024 * 1024 * 1024)}\n'),
             ],
           ),
         ),
