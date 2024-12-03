@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:storage/model.dart';
+// import 'package:storage/model.dart';
 import 'package:storage/storage.dart';
 
 void main() {
@@ -21,14 +21,18 @@ class _MyAppState extends State<MyApp> {
   final _storagePlugin = Storage();
   int storageTotalSpace = 0;
   int storageFreeSpace = 0;
-  int storageUsableSpace = 0;
-  int externalStorageTotalSpace = 0;
-  int externalStorageFreeSpace = 0;
-  int externalStorageUsableSpace = 0;
-  int rootTotalSpace = 0;
-  int rootFreeSpace = 0;
-  int rootUsableSpace = 0;
-  SDCard sdCard = SDCard("",0,0);
+  // int storageUsableSpace = 0;
+  // int externalStorageTotalSpace = 0;
+  // int externalStorageFreeSpace = 0;
+  // int externalStorageUsableSpace = 0;
+  // int rootTotalSpace = 0;
+  // int rootFreeSpace = 0;
+  // int rootUsableSpace = 0;
+  int sdCardTotalSpace = 0;
+  int sdCardFreeSpace = 0;
+  // SDCard sdCard = SDCard("",0,0);
+  List<String> sdCardPath = [];
+  bool isWritable = false;
   int sdkInt =0;
   @override
   void initState() {
@@ -47,17 +51,21 @@ class _MyAppState extends State<MyApp> {
       sdkInt=   await _storagePlugin.getSDKIntVersion()?? 0;
       storageTotalSpace = await _storagePlugin.getStorageTotalSpace() ?? 0;
       storageFreeSpace = await _storagePlugin.getStorageFreeSpace() ?? 0;
-      storageUsableSpace = await _storagePlugin.getStorageUsableSpace() ?? 0;
-      externalStorageTotalSpace =
-          await _storagePlugin.getExternalStorageTotalSpace() ?? 0;
-      externalStorageFreeSpace =
-          await _storagePlugin.getExternalStorageFreeSpace() ?? 0;
-      externalStorageUsableSpace =
-          await _storagePlugin.getExternalStorageUsableSpace() ?? 0;
-      rootTotalSpace = await _storagePlugin.getRootTotalSpace() ?? 0;
-      rootFreeSpace = await _storagePlugin.getRootFreeSpace() ?? 0;
-      rootUsableSpace = await _storagePlugin.getRootUsableSpace() ?? 0;
-      sdCard = await _storagePlugin.getSDCard();
+      // storageUsableSpace = await _storagePlugin.getStorageUsableSpace() ?? 0;
+      // externalStorageTotalSpace =
+      //     await _storagePlugin.getExternalStorageTotalSpace() ?? 0;
+      // externalStorageFreeSpace =
+      //     await _storagePlugin.getExternalStorageFreeSpace() ?? 0;
+      // externalStorageUsableSpace =
+      //     await _storagePlugin.getExternalStorageUsableSpace() ?? 0;
+      // rootTotalSpace = await _storagePlugin.getRootTotalSpace() ?? 0;
+      // rootFreeSpace = await _storagePlugin.getRootFreeSpace() ?? 0;
+      // rootUsableSpace = await _storagePlugin.getRootUsableSpace() ?? 0;
+      // sdCard = await _storagePlugin.getSDCard();
+      sdCardPath = await _storagePlugin.getSDCardPath() ?? [];
+      isWritable = await _storagePlugin.isExternalStorageWritable()??false;
+      sdCardTotalSpace = await _storagePlugin.getSdCardTotalSpace(sdCardPath[0])??0;
+      sdCardFreeSpace = await _storagePlugin.getSdCardFreeSpace(sdCardPath[0])??0;
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -86,25 +94,29 @@ class _MyAppState extends State<MyApp> {
               Text('Running on: $_platformVersion\n'),
                  Text('Running on SDK : $sdkInt\n'),
               Text(
-                  'Total Space: $storageTotalSpace ** ${storageTotalSpace / 1000000}\n'),
+                  'Total Space: $storageTotalSpace ** ${storageTotalSpace / (1024 * 1024 * 1024)}\n'),
               Text(
-                  'Free Space: $storageFreeSpace ** ${storageFreeSpace / 1000000}\n'),
-              Text(
-                  'Usable Space: $storageUsableSpace ** ${storageUsableSpace / 1000000}\n'),
-              Text(
-                  'External total: $externalStorageTotalSpace ** ${externalStorageTotalSpace / 1000000}\n'),
-              Text(
-                  'External free: $externalStorageFreeSpace ** ${externalStorageFreeSpace / 1000000}\n'),
-              Text(
-                  'External usable: $externalStorageUsableSpace ** ${externalStorageUsableSpace / 1000000}\n'),
-              Text(
-                  'Root Total: $rootTotalSpace ** ${rootTotalSpace / 1000000}\n'),
-              Text('Root free: $rootFreeSpace ** ${rootFreeSpace / 1000000}\n'),
-              Text(
-                  'Root usable: $rootUsableSpace ** ${rootUsableSpace / 1000000}\n'),
-              Text("SD Card Mount Path ${sdCard.path}"),
-              Text("SD Card Total memory ${sdCard.total}"),
-              Text("SD Card Free Memory ${sdCard.free}")    
+                  'Free Space: $storageFreeSpace ** ${storageFreeSpace / (1024 * 1024 * 1024)}\n'),
+              // Text(
+              //     'Usable Space: $storageUsableSpace ** ${storageUsableSpace / (1024 * 1024 * 1024)}\n'),
+              // Text(
+              //     'External total: $externalStorageTotalSpace ** ${externalStorageTotalSpace / (1024 * 1024 * 1024)}\n'),
+              // Text(
+              //     'External free: $externalStorageFreeSpace ** ${externalStorageFreeSpace / (1024 * 1024 * 1024)}\n'),
+              // Text(
+              //     'External usable: $externalStorageUsableSpace ** ${externalStorageUsableSpace / (1024 * 1024 * 1024)}\n'),
+              // Text(
+              //     'Root Total: $rootTotalSpace ** ${rootTotalSpace / (1024 * 1024 * 1024)}\n'),
+              // Text('Root free: $rootFreeSpace ** ${rootFreeSpace / (1024 * 1024 * 1024)}\n'),
+              // Text(
+              //     'Root usable: $rootUsableSpace ** ${rootUsableSpace / (1024 * 1024 * 1024)}\n'),
+              for(var path in sdCardPath)
+              Text("SD Card Mount Path $path"),
+              // Text("SD Card Total memory ${sdCard.total}"),
+              // Text("SD Card Free Memory ${sdCard.free}")    ,
+              Text('Is External Storage Writable? $isWritable'),
+              Text('SD Card Total Space: $sdCardTotalSpace ** ${sdCardTotalSpace / (1024 * 1024 * 1024)}\n'),
+              Text('SD Card Free Space: $sdCardFreeSpace ** ${sdCardFreeSpace / (1024 * 1024 * 1024)}\n'),
             ],
           ),
         ),

@@ -1,6 +1,6 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'model.dart';
+// import 'model.dart';
 import 'storage_method_channel.dart';
 
 abstract class StoragePlatform extends PlatformInterface {
@@ -39,28 +39,40 @@ abstract class StoragePlatform extends PlatformInterface {
   Future<int?> getStorageFreeSpace() {
     throw UnimplementedError('getStorageTotalSpace() has not been implemented.');
   }
-    Future<int?> getStorageUsableSpace() {
-    throw UnimplementedError('getStorageUsableSpace() has not been implemented.');
-  }
-  Future<int?> getExternalStorageTotalSpace() {
-    throw UnimplementedError('getExternalStorageTotalSpace() has not been implemented.');
-  }
-  Future<int?> getExternalStorageFreeSpace() {
-    throw UnimplementedError('getExternalStorageFreeSpace() has not been implemented.');
-  }
-  Future<int?> getExternalStorageUsableSpace() {
-    throw UnimplementedError('getExternalStorageUsableSpace() has not been implemented.');
-  }
-   Future<int?> getRootTotalSpace() {
-    throw UnimplementedError('getRootTotalSpace() has not been implemented.');
-  }
-  Future<int?> getRootFreeSpace() {
-    throw UnimplementedError('getRootFreeSpace() has not been implemented.');
-  }
-   Future<SDCard> getSDCard() {
-    throw UnimplementedError('getSDCard() has not been implemented.');
+  //   Future<int?> getStorageUsableSpace() {
+  //   throw UnimplementedError('getStorageUsableSpace() has not been implemented.');
+  // }
+  // Future<int?> getExternalStorageTotalSpace() {
+  //   throw UnimplementedError('getExternalStorageTotalSpace() has not been implemented.');
+  // }
+  // Future<int?> getExternalStorageFreeSpace() {
+  //   throw UnimplementedError('getExternalStorageFreeSpace() has not been implemented.');
+  // }
+  // Future<int?> getExternalStorageUsableSpace() {
+  //   throw UnimplementedError('getExternalStorageUsableSpace() has not been implemented.');
+  // }
+  //  Future<int?> getRootTotalSpace() {
+  //   throw UnimplementedError('getRootTotalSpace() has not been implemented.');
+  // }
+  // Future<int?> getRootFreeSpace() {
+  //   throw UnimplementedError('getRootFreeSpace() has not been implemented.');
+  // }
+   Future<List<String>?> getSDCardPath() {
+    throw UnimplementedError('getSDCardPath() has not been implemented.');
   }
   Future<int?> getRootUsableSpace() {
     throw UnimplementedError('getRootUsableSpace() has not been implemented.');
   }
+  Future<bool?> isExternalStorageWritable() {
+    throw UnimplementedError('isExternalStorageWritable() has not been implemented.');
+  }
+
+  Future<int?> getSdCardFreeSpace(String path){
+    throw UnimplementedError('getSdCardFreeSpace() has not been implemented.');
+  }
+
+  Future<int?> getSdCardTotalSpace(String path){
+    throw UnimplementedError('getSdCardTotalSpace() has not been implemented');
+  }
+
 }

@@ -1,4 +1,4 @@
-import 'model.dart';
+// import 'model.dart';
 import 'storage_platform_interface.dart';
 
 class Storage {
@@ -19,35 +19,48 @@ class Storage {
     return StoragePlatform.instance.getStorageFreeSpace();
   }
 
-  Future<int?> getStorageUsableSpace() {
-    return StoragePlatform.instance.getStorageUsableSpace();
-  }
+  // Future<int?> getStorageUsableSpace() {
+  //   return StoragePlatform.instance.getStorageUsableSpace();
+  // }
 
-  Future<int?> getExternalStorageTotalSpace() {
-    return StoragePlatform.instance.getExternalStorageTotalSpace();
-  }
+  // Future<int?> getExternalStorageTotalSpace() {
+  //   return StoragePlatform.instance.getExternalStorageTotalSpace();
+  // }
 
-  Future<int?> getExternalStorageFreeSpace() {
-    return StoragePlatform.instance.getExternalStorageFreeSpace();
-  }
+  // Future<int?> getExternalStorageFreeSpace() {
+  //   return StoragePlatform.instance.getExternalStorageFreeSpace();
+  // }
 
-  Future<int?> getExternalStorageUsableSpace() {
-    return StoragePlatform.instance.getExternalStorageUsableSpace();
-  }
+  // Future<int?> getExternalStorageUsableSpace() {
+  //   return StoragePlatform.instance.getExternalStorageUsableSpace();
+  // }
 
-  Future<int?> getRootTotalSpace() {
-    return StoragePlatform.instance.getRootTotalSpace();
-  }
+  // Future<int?> getRootTotalSpace() {
+  //   return StoragePlatform.instance.getRootTotalSpace();
+  // }
 
-  Future<int?> getRootFreeSpace() {
-    return StoragePlatform.instance.getRootFreeSpace();
-  }
+  // Future<int?> getRootFreeSpace() {
+  //   return StoragePlatform.instance.getRootFreeSpace();
+  // }
 
   Future<int?> getRootUsableSpace() {
     return StoragePlatform.instance.getRootUsableSpace();
   }
   
-  Future<SDCard> getSDCard() {
-    return StoragePlatform.instance.getSDCard();
+  Future<List<String>?> getSDCardPath() {
+    return StoragePlatform.instance.getSDCardPath();
   }
+
+  Future<bool?> isExternalStorageWritable() {
+    return StoragePlatform.instance.isExternalStorageWritable();
+  }
+
+  Future<int?> getSdCardFreeSpace(String path){
+    return StoragePlatform.instance.getSdCardFreeSpace(path);
+  }
+
+  Future<int?> getSdCardTotalSpace(String path){
+    return StoragePlatform.instance.getSdCardTotalSpace(path);
+  }
+
 }
